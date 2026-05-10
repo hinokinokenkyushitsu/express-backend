@@ -1,23 +1,26 @@
 package com.fiveok.express.base.config;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final JwtAuthFilter jwtAuthFilter;
-
-    @Bean
-    public FilterRegistrationBean<JwtAuthFilter> jwtFilterRegistration() {
-        FilterRegistrationBean<JwtAuthFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(jwtAuthFilter);
-        registration.addUrlPatterns("/api/*");
-        registration.setOrder(1);
-        return registration;
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns(
+                        "http://localhost:5173",
+                        "http://127.0.0.1:5173",
+                        "https://express-frontend-hinoki-s-projects.vercel.app",
+                        "https://express-frontend-phi.vercel.app",
+                        "https://*.vercel.app"
+                )
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization")
+                .allowCredentials(false)
+                .maxAge(3600);
     }
 }
