@@ -1,11 +1,11 @@
 spring:
   application:
     name: express
-
+  
   datasource:
-    url: jdbc:mysql://localhost:3306/express_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: root
-    password: Hinoki7896688
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=true&requireSSL=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
@@ -32,8 +32,8 @@ mybatis-plus:
       logic-not-delete-value: 0
 
 jwt:
-  secret: ${JWT_SECRET:fiveok-express-secret-key-must-be-at-least-256bits-long!!}
+  secret: ${JWT_SECRET}
   expire-ms: 7200000
 
 server:
-  port: 8080
+  port: ${PORT:8080}
