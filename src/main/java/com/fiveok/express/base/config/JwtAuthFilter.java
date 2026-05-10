@@ -38,9 +38,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
+        
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        response.setStatus(HttpServletResponse.SC_OK);
+        return;
+        }
+
         if (WHITE_LIST.contains(request.getRequestURI())) {
-            chain.doFilter(request, response);
-            return;
+        chain.doFilter(request, response);
+        return;
         }
 
         String token = resolveToken(request);
